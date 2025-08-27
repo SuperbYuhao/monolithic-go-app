@@ -36,3 +36,8 @@ go.work.sum
 # Editor/IDE
  .idea/
  .vscode/
+/.idea/.gitignore
+/.idea/dataSources.xml
+/.idea/modules.xml
+/.idea/monolithic-go-app.iml
+/.idea/vcs.xml
