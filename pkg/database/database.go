@@ -1,33 +1,28 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"monolithic-go-app/pkg/config"
 
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func InitDB(databaseCfg config.DatabaseConfig) (*sql.DB, error) {
-	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		databaseCfg.Host,
-		databaseCfg.Port,
-		databaseCfg.User,
-		databaseCfg.Password,
-		databaseCfg.Name,
-		databaseCfg.SSLMode,
+func InitDB(cfg config.DatabaseConfig) (*gorm.DB, error) {
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		cfg.Host,
+		cfg.Port,
+		cfg.User,
+		cfg.Password,
+		cfg.Name,
+		cfg.SSLMode,
 	)
-	db, err := sql.Open("postgres", connStr)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("failed to open database: %v", err)
+		return nil, fmt.Errorf("failed to connect database: %w", err)
 	}
 
-	err = db.Ping()
-	if err != nil {
-		return nil, fmt.Errorf("failed to ping database: %v", err)
-	}
-
-	log.Println("Successfully connected to database")
+	log.Println("Database connection established")
 	return db, nil
 }
