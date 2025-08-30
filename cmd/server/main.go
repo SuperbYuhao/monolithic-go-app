@@ -28,11 +28,11 @@ func main() {
 	r.Use(middleware.LoggingMiddleware)
 
 	userHandler := handlers.NewUserHandler(db)
-	r.HandleFunc("/users", userHandler.GetAllUsers).Methods("Get")
-	r.HandleFunc("/users/{id}", userHandler.GetUserByID).Methods("Get")
-	r.HandleFunc("/users", userHandler.CreateUser).Methods("POST")
-	r.HandleFunc("/users/{id}", userHandler.UpdateUser).Methods("PUT")
-	r.HandleFunc("/users/{id}", userHandler.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/api/users", userHandler.GetAllUsers).Methods("Get")
+	r.HandleFunc("/api/users/{id}", userHandler.GetUserByID).Methods("Get")
+	r.HandleFunc("/api/users", userHandler.CreateUser).Methods("POST")
+	r.HandleFunc("/api/users/{id}", userHandler.UpdateUser).Methods("PUT")
+	r.HandleFunc("/api/users/{id}", userHandler.DeleteUser).Methods("DELETE")
 
 	log.Println("Server starting on :8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
